@@ -1,0 +1,17 @@
+--- ts-4.2.0.old/iocore/cache/Cache.cc	2014-02-21 15:28:15.742852620 +0800
++++ ts-4.2.0/iocore/cache/Cache.cc	2014-04-12 16:25:08.512929672 +0800
+@@ -600,6 +600,14 @@
+     netthreads[i]->diskHandler = new DiskHandler();
+     netthreads[i]->schedule_imm(netthreads[i]->diskHandler);
+   }
++
++  etype = SSLNetProcessor::ET_SSL;
++  n_netthreads = eventProcessor.n_threads_for_type[etype];
++  netthreads = eventProcessor.eventthread[etype];
++  for (int i = 0; i < n_netthreads; ++i) {
++    netthreads[i]->diskHandler = new DiskHandler();
++    netthreads[i]->schedule_imm(netthreads[i]->diskHandler);
++  }
+ #endif
+ 
+   start_internal_flags = flags;
